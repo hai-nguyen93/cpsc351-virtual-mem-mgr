@@ -224,9 +224,6 @@ void part1(){
     assert(physical_add == phys_add);
     assert(value == val);
   }
-  tlbh[4] = tlb_hit_count;
-  pfc[4] = page_fault_count;
-  count[4] = access_count;
   fclose(fcorr);
   fclose(fadd);
   fclose(fsto);
@@ -289,9 +286,6 @@ void part2(){
 
     assert(value == val);
   }
-  tlbh2[4] = tlb_hit_count;
-  pfc2[4] = page_fault_count;
-  count2[4] = access_count;
   fclose(fcorr);
   fclose(fadd);
   fclose(fsto);
