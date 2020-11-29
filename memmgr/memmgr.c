@@ -45,8 +45,8 @@ void getpage_offset(unsigned x) {
 int tlb_contains(unsigned x){
   for (int i=0; i<16; i++){
     if (tlb[i][0] == x) { return i; }
-    return -1;
   }
+  return -1;
 }
 
 void update_tlb(unsigned page){
@@ -116,8 +116,10 @@ unsigned getframe_fifo(unsigned logic_add, unsigned page,
   // tlb hit         
   int tlb_index = tlb_contains(page);
   if (tlb_index != -1) {
-    (*tlb_hit_count)++;
-    return tlb[tlb_index][1];
+    if (page_queue[tlb[tlb_index][1]]==page) {
+      (*tlb_hit_count)++;
+      return tlb[tlb_index][1];
+    }
   }
 
   // tlb miss, page table hit
@@ -207,7 +209,6 @@ void part1(){
 
     physical_add = frame * FRAME_SIZE + offset;
     int val = (int)(main_mem[physical_add]);
-    fseek(fsto, logic_add, 0);
 
     // update tlb hit count and page fault count every 200 accesses
     if (access_count > 0 && access_count%200==0){
@@ -274,7 +275,6 @@ void part2(){
 
     physical_add = frame * FRAME_SIZE + offset;
     int val = (int)(main_mem_fifo[physical_add]);
-    fseek(fsto, logic_add, 0);
 
     // update tlb hit count and page fault count every 200 accesses
     if (access_count > 0 && access_count%200==0){
